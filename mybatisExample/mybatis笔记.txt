@@ -1,0 +1,16 @@
+搭建mybatis项目
+（1）通过IDEA创建一个maven工程
+（2）在pom.xml中加入以下依赖
+               <dependency>
+                   <groupId>mysql</groupId>
+                   <artifactId>mysql-connector-java</artifactId>
+                   <version>8.0.28</version>
+               </dependency>
+
+               <dependency>
+                   <groupId>org.mybatis</groupId>
+                   <artifactId>mybatis</artifactId>
+                   <version>3.5.9</version>
+               </dependency>
+（3）在src/main/resources/目录下创建mybaits主配置文件,并配置好相关的配置，如数据库的连接信息等
+（4）创建
