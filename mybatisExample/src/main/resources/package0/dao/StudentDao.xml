@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="package0.dao.StudentDao">
+    <insert id="insertStudent">
+        insert into student values (#{sid}, #{gender}, #{classId}, #{sname})
+    </insert>
+
+    <update id="updateStudent">
+        update student set sname = #{sname} where sid = #{id}
+    </update>
+
     <select id="selectAllStudents" resultType="package0.entity.Student">
         select *from student
+    </select>
+
+    <select id="selectStudentsByStudent" resultType="package0.entity.Student">
+        select *from student where class_id = #{classId}
+    </select>
+
+    <select id="selectStudentsByGenderAndClassId" resultType="package0.entity.Student">
+        select *from student where class_id = #{cid} and gender = #{gend}
     </select>
 </mapper>

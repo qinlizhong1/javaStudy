@@ -5,7 +5,13 @@
     <properties resource="db.properties"></properties>
 
     <settings>
+        <!--开启驼峰命名映射 -->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--开启日志 -->
+        <setting name= "logImpl" value="LOG4J"/>
+
+        <!--开启二级缓存 -->
+        <setting name="cacheEnabled" value="true"/>
     </settings>
 
     <!-- 配置环境.-->
@@ -26,6 +32,6 @@
     </environments>
 
     <mappers>
-        <package name="package0.dao"/>
+        <package name="package3.dao"/>
     </mappers>
 </configuration>

@@ -13,4 +13,30 @@
                    <version>3.5.9</version>
                </dependency>
 （3）在src/main/resources/目录下创建mybaits主配置文件,并配置好相关的配置，如数据库的连接信息等
-（4）创建
+（4）创建实体类
+（5）创建dao类操作数据库
+（6）创建sql映射文件，并在第（3）步中创建的主配置文件中映射该sql映射文件：
+         <mappers>
+             <package name="dao类所在的包"/>
+         </mappers>
+
+
+
+
+----------package3例子：mybatis缓存
+（一）一级缓存
+    一级缓存是sqisession级别缓存，默认开启
+    一级缓存被清空情况：执行了insert、update、delete的sql语句（不管有没有成功，只要你执行了增删改的SQL，缓存都会清空）；又或者只执行了commit操作。
+（二）二级缓存
+    二级缓存是mapper级别，跨sqlsession
+    启用二级缓存需要设置：
+    （1）在mybatis的全局配置文件中加入如下配置
+       <!--开启二级缓存-->
+       <settings>
+           <setting name="cacheEnabled" value="true"/>
+       </settings>
+    （2）在映射文件加上：
+       <cache/>
+    二级缓存有可能是存储在磁盘中，有文件的读写操作，所以映射的实体类要实现Serializable接口
+
+

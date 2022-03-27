@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="package1.dao.StudentDao">
+    <update id="updateSelect">
+        update student
+        <set>
+            <if test="gender!=null">
+                gender = #{gender},
+            </if>
+            <if test="classId!=null">
+                class_id = #{classId},
+            </if>
+            <if test="sname!=null">
+                sname = #{sname},
+            </if>
+
+        </set>
+        where sid = #{sid}
+    </update>
+
+    <select id="selectStudentByGenderAndClassId" resultType="package1.entity.Student">
+        select *from student
+        <where>
+            <if test="gender!=null">
+                and gender = #{gender}
+            </if>
+            <if test="classId!=null">
+                and class_id = #{classId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectStudentInSid" resultType="package1.entity.Student">
+        select * from student
+        <where>
+            <foreach collection="sids" item="sid" open="sid in (" close=")" separator=",">
+                #{sid}
+            </foreach>
+        </where>
+    </select>
+</mapper>
