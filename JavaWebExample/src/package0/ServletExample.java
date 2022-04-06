@@ -1,7 +1,10 @@
 package package0;
 
-import jakarta.servlet.*;
-import jakarta.servlet.annotation.WebServlet;
+import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+import java.io.IOException;
+import java.util.Enumeration;
 
 import java.io.IOException;
 

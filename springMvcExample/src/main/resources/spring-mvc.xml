@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc
+    https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 扫描指定包下的注解 -->
+    <context:component-scan base-package="package0; package1; package2; package3; package4; package5; package6"/>
+    <context:component-scan base-package="package7; package8; package9; package10; package11; package12; package13"/>
+
+    <!-- 配置注解驱动，它的主要的作用是：注册映射器HandlerMapping和适配器HandlerAdapter 两个类型的Bean -->
+    <!--HandlerMapping的实现为实现类RequestMappingHandlerMapping，它会处理 @RequestMapping 注解，并将其注册到请求映射表中-->
+    <!--HandlerAdapter的实现为实现类RequestMappingHandlerAdapter，它是处理请求的适配器，确定调用哪个类的哪个方法，并且构造方法参数，返回值 -->
+    <!--在使用SpringMVC是一般都会加上该配置 -->
+    <mvc:annotation-driven/>
+
+    <!-- 注册视图解析器
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+        </bean>
+        -->
+</beans>
