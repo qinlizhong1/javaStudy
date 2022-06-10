@@ -9,24 +9,28 @@ import java.util.function.Supplier;
  * 内置最常用的四种函数式接口
  */
 class FunctionalnterfaceTest{
+    //消费型接口
     public void test0(){
         System.out.println("-----------------------------------test0()-----------------------------------");
         Consumer<String> consumer = s -> System.out.println("[Consumer<T>]--->" + s);
         consumer.accept("hello");
     }
 
+    //供给型接口
     public void test1() {
         System.out.println("\n-----------------------------------test1()-----------------------------------");
         Supplier<String> supplier = () ->  "hello";
         System.out.println("[Supplier<T>]--->" + supplier.get());
     }
 
+    //判断型接口
     public void test2() {
         System.out.println("\n-----------------------------------test2()-----------------------------------");
         Predicate<String> predicate = s -> s.equals("hello");
         System.out.println("[Predicate<T>]--->" + predicate.test("hello"));
     }
 
+    //功能性接口
     public void test3() {
         System.out.println("\n-----------------------------------test3()-----------------------------------");
         Function<String, String> function = (s) -> {
