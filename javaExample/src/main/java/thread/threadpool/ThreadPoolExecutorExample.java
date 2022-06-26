@@ -75,16 +75,16 @@ class ThreadPoolExecutorTest{
 public class ThreadPoolExecutorExample {
     public static void main(String[] args) throws InterruptedException {
         ThreadPoolExecutorTest threadPoolExecutorTest = new ThreadPoolExecutorTest();
-        //threadPoolExecutorTest.testThreadPoolExecutor();
+        threadPoolExecutorTest.testThreadPoolExecutor();
         //threadPoolExecutorTest.testNewFixedThreadPool();
         //threadPoolExecutorTest.testNewSingleThreadExecutor();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/dd-HH:mm:ss");
-        String time = simpleDateFormat.format(new Date());
-        System.out.println(time + " main 开始运行");
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/dd-HH:mm:ss");
+        //String time = simpleDateFormat.format(new Date());
+        //System.out.println(time + " main 开始运行");
         //threadPoolExecutorTest.testCachedThreadPool();
         //threadPoolExecutorTest.testScheduledThreadPool1();
         //threadPoolExecutorTest.testScheduledThreadPool2();
-        threadPoolExecutorTest.testScheduledThreadPool3();
+        //threadPoolExecutorTest.testScheduledThreadPool3();
     }
 }

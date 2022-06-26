@@ -29,6 +29,7 @@ class ThreadPoolOOMtest{
     }
 }
 
+//线程池使用不当导致OOM案例
 public class ThreadPoolOOMExample {
     public static void main(String[] args) {
         ThreadPoolOOMtest threadPoolOOMtest = new ThreadPoolOOMtest();
