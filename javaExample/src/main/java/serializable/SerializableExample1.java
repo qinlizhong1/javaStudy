@@ -11,6 +11,7 @@ class Person1 implements Serializable {
     public Person1(String name, Integer age) {
         this.name = name;
         this.age = age;
+        System.out.println("调用了构造函数");
     }
 
     public String getName() {
@@ -38,7 +39,7 @@ class Person1 implements Serializable {
     }
 }
 
-public class SerializableExample {
+public class SerializableExample1 {
     public static void main(String[] args) throws Exception {
         File file = new File("/Users/qin/Desktop/develop/person1.txt");
 
@@ -48,6 +49,8 @@ public class SerializableExample {
         out.writeObject(person);
         out.flush();
         out.close();
+
+        System.out.println("*****************************");
 
         //反序列化
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
