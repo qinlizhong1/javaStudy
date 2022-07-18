@@ -1,4 +1,4 @@
-package factory;
+package builder;
 
 class Employee{
     private String name;
