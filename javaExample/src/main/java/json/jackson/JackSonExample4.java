@@ -15,7 +15,7 @@ import java.util.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class Student2{
+class Student4{
     //Map   name->course
     private Map<String, String> stringMap;
     //List
@@ -30,7 +30,7 @@ class Student2{
     private int weight;
 }
 
-public class JackSonExample2 {
+public class JackSonExample4 {
     public static void main(String[] args) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -41,24 +41,24 @@ public class JackSonExample2 {
         //在序列化时忽略值为默认值的属性
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
         //构造数据
-        Student2 student2 = new Student2();
-        student2.setName("张三丰");
-        student2.setBirthday(new Date());
+        Student4 student4 = new Student4();
+        student4.setName("张三丰");
+        student4.setBirthday(new Date());
 
         List<String> books = new ArrayList<>();
         books.add("语文书");
         books.add("数学书");
-        student2.setBooks(books);
+        student4.setBooks(books);
 
         Map<String, String> stringMap = new HashMap<>();
         stringMap.put("张老师", "语文");
         stringMap.put("李老师", "数学");
-        student2.setStringMap(stringMap);
+        student4.setStringMap(stringMap);
 
         //将构造的Student1对象序列化为json串
         System.out.println("序列化");
         String jsonString = objectMapper.writerWithDefaultPrettyPrinter()
-                                        .writeValueAsString(student2);
+                                        .writeValueAsString(student4);
         System.out.println("json字符串:" + jsonString);
 
         //将json串反序列化为Student1对象
