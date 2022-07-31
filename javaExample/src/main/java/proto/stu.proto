@@ -1,0 +1,11 @@
+//指定了用的是proto3语法，不写默认proto2语法
+syntax = "proto3";
+
+//定义proto的包名，可以通过package防止命名冲突。
+option java_package =  "protobuf.p1";
+
+//Person包含name和age两个属性
+message Student {
+    string name = 1;
+    int32 age =2;
+}
