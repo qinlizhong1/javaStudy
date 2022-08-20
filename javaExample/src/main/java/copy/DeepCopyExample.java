@@ -1,37 +1,51 @@
 package copy;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
-
-class Address{
+//1.Address1实现Cloneable接口
+class Address1 implements Cloneable{
     public String city;
 
-    public Address(String city) {
+    public Address1(String city) {
         this.city = city;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
 
-//1.实现Cloneable接口
-class School2 implements Cloneable{
+//2.School3实现Cloneable接口
+class School3 implements Cloneable{
     public int age;
-    public Address address;
+    public Address1 address;
 
-    public School2(int age, Address address) {
+    public School3(int age, Address1 address) {
         this.age = age;
+        this.address = address;
+    }
+
+    public Address1 getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address1 address) {
         this.address = address;
     }
 
     //重写clone方法，方法中通过super.clone()调用Object类中的原clone方法
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public Object clone() throws CloneNotSupportedException {
+        School3 school3 = (School3)super.clone();
+        school3.setAddress((Address1) school3.getAddress().clone());
+        return school3;
     }
 }
 
-//引用拷贝测试
-public class ShallowCopyExample {
+//深拷贝测试
+public class DeepCopyExample {
     public static void main(String[] args) throws CloneNotSupportedException {
-        School2 school = new School2(11, new Address("北京"));
-        School2 otherSchool = (School2)school.clone();
+        School3 school = new School3(22, new Address1("北京"));
+        School3 otherSchool = (School3)school.clone();
 
         System.out.println("[1]:" + school);
         System.out.println("[2]:" + otherSchool);

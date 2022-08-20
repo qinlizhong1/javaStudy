@@ -1,7 +1,5 @@
 package wrapperClass;
 
-import java.sql.SQLOutput;
-
 class WrapperClassTest {
     //装箱
     public void test0() {
