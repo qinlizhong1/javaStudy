@@ -1,6 +1,8 @@
 package kafka;
 
 import lombok.Data;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 
@@ -55,8 +57,9 @@ public class KafkaUtils {
     //消费者：值解码器
     private String valueDecoder = "org.apache.kafka.common.serialization.StringDeserializer";
 
-    //消费者：重启后配置offset, latest：消费者从最新的offset开始消费
-    private String autoOffsetReset = "latest";
+    //消费者：重启后配置offset, latest：每次重启消费者时，从最新的offset开始消费（上次记录的offset之后的一个，如果上次消费没有记录，则从当前offset之后开始消费）
+    //如果，offset设为earliest，则每次重启消费者，offset都会从0开始消费数据；
+    private String autoOffsetReset = "earliest";
 
     public KafkaUtils(){
 
@@ -65,6 +68,10 @@ public class KafkaUtils {
     public KafkaUtils(String keyEncoder, String valueEncoder){
         this.keyEncoder = keyEncoder;
         this.valueEncoder = valueEncoder;
+    }
+
+    public KafkaUtils(String valueDecoder){
+        this.valueDecoder = valueDecoder;
     }
 
     public KafkaUtils(String kafkaHost, String ack, Integer retryTimes, Integer batchSize, Integer lingerMs, Integer bufferMemory, String keyEncoder, String valueEncoder, String groupId, String autoCommit, String autoCommitIntervalMs, String keyDecoder, String valueDecoder, String autoOffsetReset, Collection<String> topic) {
@@ -115,6 +122,21 @@ public class KafkaUtils {
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keyEncoder);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueEncoder);
         return new KafkaProducer<>(properties);
+    }
+
+    /**
+     *创建消费消息的客户端，传入参数
+     */
+    public KafkaConsumer<String, String> getDefaultKafkaConsumer() {
+        Properties properties = new Properties();
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaHost);
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, autoCommit);
+        properties.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, autoCommitIntervalMs);
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, keyDecoder);
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, valueDecoder);
+        return new KafkaConsumer<>(properties);
     }
 
 }

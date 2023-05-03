@@ -1,15 +1,13 @@
 package kafka;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
-import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 
-public class KafkaProduct {
+public class KafkaProductDemo {
     /**
      * 同步发送String类型数据
      */
@@ -71,8 +69,8 @@ public class KafkaProduct {
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        //KafkaProduct.syncSendString();
+        KafkaProductDemo.syncSendString();
         //KafkaProduct.syncSendObj();
-        KafkaProduct.asyncSendObj();
+        //KafkaProductDemo.asyncSendObj();
     }
 }
