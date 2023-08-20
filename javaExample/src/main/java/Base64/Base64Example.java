@@ -18,9 +18,9 @@ class Base64Test{
     //URL Base64算法
     public void test1(){
         System.out.println();
-        String value = "Hello!!";
+        String value = "Hello!!中&";
         System.out.println(Base64.getEncoder().encodeToString(value.getBytes()));
-        //System.out.println(org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString(value.getBytes()));
+        System.out.println(Base64.getUrlEncoder().encodeToString(value.getBytes()));
     }
 }
 
@@ -28,6 +28,6 @@ public class Base64Example {
     public static void main(String[] args) {
         Base64Test base64Test = new Base64Test();
         base64Test.test0();
-        //base64Test.test1();
+        base64Test.test1();
     }
 }

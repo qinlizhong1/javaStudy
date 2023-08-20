@@ -1,5 +1,5 @@
 package factory;
-
+/*
 //1.定义鞋这种产品的抽象基类
 abstract class Shoes{
     public abstract void showLogo();
@@ -14,21 +14,21 @@ class NikeShoes extends Shoes{
     }
 }
 
-//新增加安踏品牌，需要新增加有一个安踏鞋类继承抽象基类
-class AntaShoes extends Shoes{
-
-    @Override
-    public void showLogo() {
-        System.out.println("我是安踏鞋子");
-    }
-}
-
 //2.定义具体品牌的鞋类，继承鞋抽象基类
 class AdidasShoes extends Shoes{
 
     @Override
     public void showLogo() {
         System.out.println("我是阿迪鞋子");
+    }
+}
+
+//新增加安踏品牌，需要新增加有一个安踏鞋类继承抽象基类
+class AntaShoes extends Shoes{
+
+    @Override
+    public void showLogo() {
+        System.out.println("我是安踏鞋子");
     }
 }
 
@@ -72,3 +72,5 @@ public class FactoryMethodExample {
         adidasShoesFactory.makeShoes().showLogo();
     }
 }
+*/
+

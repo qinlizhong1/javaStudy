@@ -10,8 +10,8 @@ public class ESTest {
         esUtils.indexCreate();
         esUtils.indexView();
 
-        esUtils.putDataByJson();
-        esUtils.putDataByMap();
+        //esUtils.putDataByJson();
+        //esUtils.putDataByMap();
         esUtils.putDataBulk();
 
 

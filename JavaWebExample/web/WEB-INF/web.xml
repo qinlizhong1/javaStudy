@@ -53,4 +53,58 @@
         <param-name>contextKey2</param-name>
         <param-value>contextVal2</param-value>
     </context-param>
+
+    <servlet>
+        <!--Servlet的全称类名，通过名称找到对应的Servlet，因为的配置文件中可能存在很多Servlet，他需要一个可识别的名称标签-->
+        <servlet-name>myservlet</servlet-name>
+        <!--访问实际的类，这里需要写全限定名-->
+        <servlet-class>test.MyServlet</servlet-class>
+    </servlet>
+    <!--映射配置  -->
+    <servlet-mapping>
+        <!--同上，Servlet名称-->
+        <servlet-name>myservlet</servlet-name>
+        <!--URL路径访问名称，比如：localhost:8080/firstservlet/test（这里访问就需要在地址栏上假如test）-->
+        <url-pattern>*.t</url-pattern>
+    </servlet-mapping>
+    
+    <welcome-file-list>
+        <welcome-file>a.html</welcome-file>
+    </welcome-file-list>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/error.html</location>
+    </error-page>
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>test1.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>SensitiveWordsFilter</filter-name>
+        <filter-class>test1.SensitiveWordsFilter</filter-class>
+        <init-param>
+            <param-name>word1</param-name>
+            <param-value>笨蛋</param-value>
+        </init-param>
+        <init-param>
+            <param-name>word2</param-name>
+            <param-value>扯淡</param-value>
+        </init-param>
+        <init-param>
+            <param-name>word3</param-name>
+            <param-value>王八蛋</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>SensitiveWordsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

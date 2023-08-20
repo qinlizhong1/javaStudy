@@ -1,0 +1,85 @@
+(1)整合log4j,加入以下依赖
+    <dependencies>
+        <!-- 引入web模块 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+(2) 配置文件.yml 添加日志参数
+    logging:
+      config: classpath:log4j2.xml
+      level:
+        org.springfromework.web: info
+
+(3) 在resources目录下创建log4j2.xml文件，配置日志相关信息：主要看LOG_HOME 日志存放路径，PATTERN_LAYOUT 日志格式，ROLLFILE 日志文件信息
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Configuration status="WARN">
+        <properties>
+            <property name="LOG_HOME">/Users/qin/logs/SpringBootExample</property>
+            <property name="PATTERN_LAYOUT">%d{yyyy-MM-dd HH:mm:ss.SSS} [%-16.16X{traceId}] %X{tid} %-5p [%t] [%l] %c{1.} - %m%n</property>
+        </properties>
+        <Appenders>
+            <Console name="CONSOLE" target="SYSTEM_OUT">
+                <!-- 控制台只接受程序中error级别的日志进行处理-->
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+                <PatternLayout pattern="${PATTERN_LAYOUT}" />
+            </Console>
+            <RollingFile name="ROLLFILE" fileName="${LOG_HOME}/SpringBootExample.log" filePattern="${LOG_HOME}/SpringBootExample.%d{yyyy-MM-dd}.gz">
+                <PatternLayout>
+                    <Pattern>${PATTERN_LAYOUT}</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <TimeBasedTriggeringPolicy modulate="true" interval="1" />
+                </Policies>
+                <DefaultRolloverStrategy>
+                    <Delete basePath="${LOG_HOME}/" maxDepth="1">
+                        <IfFileName glob="asset-wallet*.gz" />
+                        <IfLastModified age="7d" />
+                    </Delete>
+                </DefaultRolloverStrategy>
+            </RollingFile>
+            <RollingFile name="ERROR" fileName="${LOG_HOME}/SpringBootExample-error.log" filePattern="${LOG_HOME}/SpringBootExample-error.%d{yyyy-MM-dd}.gz">
+                <PatternLayout>
+                    <Pattern>${PATTERN_LAYOUT}</Pattern>
+                </PatternLayout>
+                <Filters>
+                    <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+                </Filters>
+                <Policies>
+                    <TimeBasedTriggeringPolicy modulate="true" interval="1" />
+                </Policies>
+                <DefaultRolloverStrategy>
+                    <Delete basePath="${LOG_HOME}/" maxDepth="1">
+                        <IfFileName glob="asset-wallet-error*.gz" />
+                        <IfLastModified age="7d" />
+                    </Delete>
+                </DefaultRolloverStrategy>
+            </RollingFile>
+        </Appenders>
+        <Loggers>
+            <Root level="INFO">
+                <AppenderRef ref="CONSOLE" />
+                <AppenderRef ref="ROLLFILE" />
+                <AppenderRef ref="ERROR" />
+            </Root>
+        </Loggers>
+    </Configuration>

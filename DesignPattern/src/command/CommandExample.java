@@ -51,7 +51,7 @@ class UIDesigner{
 
 
 //3、构建各种具体的命令
-//3.1 修改代码的命令类
+//3.1 编写代码的命令类
 class CodeCommand implements Command{
     private Coder coder;
 
@@ -65,7 +65,7 @@ class CodeCommand implements Command{
     }
 }
 
-//3.2 修改测试用例的命令类
+//3.2 编写测试用例的命令类
 class TestCommand implements Command{
     private Tester tester;
 
@@ -79,11 +79,11 @@ class TestCommand implements Command{
     }
 }
 
-//3.3 修改需求文档的命令类
-class ModifyRequirementCommand implements Command{
+//3.3 设计UI的命令类
+class UIDesignCommand implements Command{
     private UIDesigner uiDesigner;
 
-    public ModifyRequirementCommand(UIDesigner uiDesigner) {
+    public UIDesignCommand(UIDesigner uiDesigner) {
         this.uiDesigner = uiDesigner;
     }
 
@@ -93,7 +93,7 @@ class ModifyRequirementCommand implements Command{
     }
 }
 
-//4 创建命令的调用者类（Invoker）,这里是项目经理类SM
+//4 创建命令的调用者类（Invoker）,这里是项目经理类PM
 class PM{
     private final List<Command> commands = new ArrayList<>();
 
@@ -118,7 +118,7 @@ public class CommandExample {
 
         CodeCommand codeCommand = new CodeCommand(new Coder("程序员张三"));
         TestCommand testCommand =  new TestCommand(new Tester("测试李四"));
-        ModifyRequirementCommand modifyRequirementCommand = new ModifyRequirementCommand(new UIDesigner("设计王五"));
+        UIDesignCommand modifyRequirementCommand = new UIDesignCommand(new UIDesigner("设计王五"));
 
         pm.addCommands(codeCommand);
         pm.addCommands(testCommand);

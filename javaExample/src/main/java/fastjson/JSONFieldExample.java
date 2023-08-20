@@ -24,15 +24,19 @@ class Book{
 @NoArgsConstructor
 @AllArgsConstructor
 class Author implements Comparable{
+    //ordinal 指定序列化的顺序
     @JSONField(ordinal = 2)
     private String name;
 
-    @JSONField(ordinal = 1)
+    //deserialize属性指定是否将该字符反序列化，为false表示该字段不进行反序列化
+    @JSONField(ordinal = 1, deserialize = false)
     private int age;
 
-    @JSONField(serialize = false)//sex不参与序列化
+    //serialize属性指定是否将该字符序列化，为false表示该字段不进行序列化
+    @JSONField(serialize = false)
     private String sex;
 
+    //name属性 指定序列化后的名字
     @JSONField(ordinal = 3, name = "Books")
     private List<Book> books;
 
@@ -55,7 +59,7 @@ class Author implements Comparable{
     }
 }
 
-class JsonFieldTest{
+class JSONFieldTest{
     public Author getAuthor() {
         List<Book> books = new ArrayList<>();
         Book book0 = new Book("射雕", 18);
@@ -106,9 +110,9 @@ class JsonFieldTest{
     }
 }
 
-public class JsonFieldExample {
+public class JSONFieldExample {
     public static void main(String[] args) {
-        JsonFieldTest jsonFieldTest = new JsonFieldTest();
+        JSONFieldTest jsonFieldTest = new JSONFieldTest();
         jsonFieldTest.test0();
         jsonFieldTest.test1();
     }

@@ -167,7 +167,7 @@ public class ESUtils {
      */
     public void putDataBulk() throws IOException {
         System.out.println("\n-------------------------- bulk批量新增文档: map格式  -------------------------- ");
-        BulkRequest bulkRequest = new BulkRequest(); //指定索引名称
+        BulkRequest bulkRequest = new BulkRequest(INDEX, "_doc"); //指定索引名称
 
         //通过map组装要添加的数据
         Map<String, Object> dataMap3 = new HashMap<>();
@@ -176,9 +176,9 @@ public class ESUtils {
         dataMap3.put("desc", "my three book");
         dataMap3.put("created_at", "2023-01-03");
 
-        IndexRequest indexRequest3 = new IndexRequest(INDEX) //指定索引名称
+        IndexRequest indexRequest3 = new IndexRequest() //指定索引名称
                 .id("3")        //指定id
-                .type("_doc")   //指定type
+                //.type("_doc")   //指定type
                 .source(dataMap3); //map格式数据形式插入文档
 
         Map<String, Object> dataMap4 = new HashMap<>();
@@ -187,13 +187,25 @@ public class ESUtils {
         dataMap3.put("desc", "my forth book");
         dataMap3.put("created_at", "2023-01-04");
 
-        IndexRequest indexRequest4 = new IndexRequest(INDEX) //指定索引名称
+        IndexRequest indexRequest4 = new IndexRequest() //指定索引名称
                 .id("4")        //指定id
-                .type("_doc")   //指定type
+                //.type("_doc")   //指定type
                 .source(dataMap4); //map格式数据形式插入文档
+
+        Map<String, Object> dataMap5 = new HashMap<>();
+        dataMap3.put("name", "book 4");
+        dataMap3.put("price", 5.5);
+        dataMap3.put("desc", "my forth book");
+        dataMap3.put("created_at", "2023-01-05");
+
+        IndexRequest indexRequest5 = new IndexRequest() //指定索引名称
+                .id("5")        //指定id
+                //.type("_doc")   //指定type
+                .source(dataMap5); //map格式数据形式插入文档
 
         bulkRequest.add(indexRequest3);
         bulkRequest.add(indexRequest4);
+        bulkRequest.add(indexRequest5);
 
         bulkRequest.timeout(new TimeValue(400)); //设置超时时间
 
@@ -213,7 +225,7 @@ public class ESUtils {
     /************************************************************    查询文档操作     **********************************************************************/
     /**
      *查询指定索引所有文档:mach_all查询
-     * GET /dog/_doc/_search
+     * GET /books/_doc/_search
      * {
      *   "query":{
      *     "match_all":{

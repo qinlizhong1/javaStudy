@@ -1,0 +1,12 @@
+(1)整合redis,加入以下依赖
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+(2)配置Redis信息
+    单机模式：
+
+
+(3)配置序列化
+    在 RedisTemplate 默认是使用的 Java 字符串序列化，该序列化存入 Redis 并不能够提供可读性，
+    比较流行的做法是替换成 Jackson 序列化，以 JSON 方式进行存储。即写一个配置类

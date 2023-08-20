@@ -1,16 +1,22 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: qin
-  Date: 2022/4/16
-  Time: 下午1:02
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<%
+    /**
+     * 操作Reuqest域对象（获取）
+     */
+    System.out.println("222222222222222");
+    String requestAttribute = (String) request.getAttribute("request");
+    System.out.println(requestAttribute);
+    String pageContextAttribute = (String) pageContext.getAttribute("request", PageContext.REQUEST_SCOPE);
+    System.out.println(pageContextAttribute);
+
+    /**
+     * 操作Session域对象（获取）
+     */
+    String pageContextAttribute1 = (String) pageContext.getAttribute("session", PageContext.SESSION_SCOPE);
+    System.out.println(pageContextAttribute1);
+
+    /**
+     * 操作application域对象（获取）
+     */
+    String pageContextAttribute2 = (String) pageContext.getAttribute("application", PageContext.APPLICATION_SCOPE);
+    System.out.println(pageContextAttribute2);
+%>

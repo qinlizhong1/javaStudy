@@ -1,0 +1,13 @@
+//使用 proto3 语法 ,未指定则使用proto2
+syntax = "proto3";
+
+// proto 文件包名
+package protobuf.p2;
+
+//生成 proto 对应源文件的文件名
+//option java_outer_classname="Book";
+
+message Book{
+  string name = 1;
+  double price = 2;
+}
