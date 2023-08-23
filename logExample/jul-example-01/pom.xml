@@ -11,5 +11,9 @@
 
     <artifactId>jul-example-01</artifactId>
 
+    <properties>
+        <maven.compiler.source>12</maven.compiler.source>
+        <maven.compiler.target>12</maven.compiler.target>
+    </properties>
 
 </project>
