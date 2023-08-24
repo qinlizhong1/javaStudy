@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 配置自定义日志输出格式 -->
+    <!--
+    转换词	                        描述	                                    性能
+     %c	                在记录事件的起源处输出记录器的名称
+     %C	                输出发出日志请求的调用者的完全限定类名	                    差
+     %d	                用于输出记录事件的日期，如 %d{yyyy-MM-dd HH:mm:ss.SSS}
+     %F / file	        输出发出记录请求的 Java 源文件的文件名	                差
+     %L / line	        输出发出记录请求的行号	                                差
+     %m / msg / message	输出与日志事件关联的应用程序提供的消息
+     %M / method	        输出发出记录请求的方法名称	                         差
+     %n	                输出平台相关的行分隔符或字符
+     %p / le / level	    输出日志事件的级别
+     %r / relative	    输出从应用程序启动到创建日志记录事件所经过的毫秒数
+     %t / thread	        输出生成日志事件的线程的名称
+     %20c	            如果记录器名称的长度少于 20 个字符，则用空格填充
+     %-20c	            如果记录器名称的长度少于 20 个字符，则用空格填充右侧
+     %.30c	            如果记录器名称超过 30 个字符，则从头部截断
+     %.-30c	            如果记录器名称超过 30 个字符， 则从尾部截断
+    -->
+    <property name="pattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5p] [%t] [%c#%M-%L] %m%n"/>
+    <!-- 配置日志输出目录 -->
+    <property name="logDir" value="/Users/qin/logs/logExample/logback-02/"/>
+
+    <!-- 配置控制台输出器 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 配置日志字体颜色，默认黑色（System.out），红色（System.err） -->
+        <target>System.err</target>
+        <!-- 配置日志输出格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- 引用自定义日志输出格式 -->
+            <pattern>${pattern}</pattern>
+            <!-- 设置字符集编码 -->
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--输出的日志级别是:  和后面的root设置的日志级别两者比较，取两者之中高的优先级作为该appender的日志级别-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+
+
+
+    <!-- 配置文件输出器 -->
+    <appender name="fileAppender" class="ch.qos.logback.core.FileAppender">
+        <!-- 配置日志输出文件 -->
+        <file>${logDir}/logback.log</file>
+        <!-- 配置日志输出格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- 引用自定义日志输出格式 -->
+            <pattern>${pattern}</pattern>
+        </encoder>
+
+        <!-- LevelFilter过滤器: onMatch配置的是Accept,则代表对符合debug级别的日志则打印，不符合debug级别的日志则不会打印。  -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+
+
+
+        <!-- 配置时间滚动日志文件输出器 -->
+        <appender name="rollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- 配置日志输出文件路径 -->
+            <file>${logDir}/rollingFile.log</file>
+
+            <!-- 配置日志输出格式 -->
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <!-- 引用自定义日志输出格式 -->
+                <pattern>${pattern}</pattern>
+            </encoder>
+
+            <!-- 配置拆分规则 :按日期归档文件，但同时限制每个日志文件的大小（时间与大小）-->
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <!-- 按照时间和压缩格式声名文件名 -->
+                <fileNamePattern>${logDir}/rollingFile.%d{yyyy-MM-dd}.log%i.gz</fileNamePattern>
+                <!-- 按照指定文件大小进行拆分 -->
+                <maxFileSize>1KB</maxFileSize>
+            </rollingPolicy>
+
+            <!--  使用自定义过滤器 -->
+            <filter class="SampleFilter">
+            </filter>
+
+        </appender>
+
+    </appender>
+
+
+    <!--为特定类单独设置
+    additivity="false":表示不继承tootLogger
+    日志级别还会受到关联appender中设置的日志级别影响
+    -->
+    <logger name="dao.UserDao" level="ERROR" additivity="false">
+        <appender-ref ref="consoleAppender"/>
+    </logger>
+
+
+    <!-- 配置记录器 -->
+    <root level="DEBUG">
+        <!-- 引用控制台输出器 -->
+        <appender-ref ref="consoleAppender"></appender-ref>
+        <appender-ref ref="fileAppender"></appender-ref>
+        <appender-ref ref="rollingFileAppender"></appender-ref>
+    </root>
+
+</configuration>
