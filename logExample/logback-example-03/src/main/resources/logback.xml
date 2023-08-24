@@ -22,7 +22,7 @@
     -->
     <property name="pattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5p] [%t] [%c#%M-%L] %m%n"/>
     <!-- 配置日志输出目录 -->
-    <property name="logDir" value="/Users/qin/logs/logExample/logback-02/"/>
+    <property name="logDir" value="/Users/qin/logs/logExample/logback-03/"/>
 
     <!-- 配置控制台输出器 -->
     <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
@@ -42,69 +42,16 @@
     </appender>
 
 
-
-
-    <!-- 配置文件输出器 -->
-    <appender name="fileAppender" class="ch.qos.logback.core.FileAppender">
-        <!-- 配置日志输出文件 -->
-        <file>${logDir}/logback.log</file>
-        <!-- 配置日志输出格式 -->
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!-- 引用自定义日志输出格式 -->
-            <pattern>${pattern}</pattern>
-        </encoder>
-
-        <!-- LevelFilter过滤器: onMatch配置的是Accept,则代表对符合debug级别的日志则打印，不符合debug级别的日志则不会打印。  -->
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>info</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-    </appender>
-
-
-    <!-- 配置时间滚动日志文件输出器 -->
-    <appender name="rollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- 配置日志输出文件路径 -->
-        <file>${logDir}/rollingFile.log</file>
-
-        <!-- 配置日志输出格式 -->
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!-- 引用自定义日志输出格式 -->
-            <pattern>${pattern}</pattern>
-        </encoder>
-
-        <!-- 配置拆分规则 :按日期归档文件，但同时限制每个日志文件的大小（时间与大小）-->
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- 按照时间和压缩格式声名文件名 -->
-            <fileNamePattern>${logDir}/rollingFile.%d{yyyy-MM-dd}.log%i.gz</fileNamePattern>
-            <!-- 按照指定文件大小进行拆分 -->
-            <maxFileSize>1KB</maxFileSize>
-        </rollingPolicy>
-
-        <!--  使用自定义过滤器 -->
-        <filter class="SampleFilter">
-        </filter>
-
-    </appender>
-
-
-
-    <!--为特定类单独设置
-    additivity="false":表示不继承tootLogger
-    日志级别还会受到关联appender中设置的日志级别影响
-    -->
-    <logger name="dao.UserDao" level="ERROR" additivity="false">
+    <!-- 配置异步输出器 -->
+    <appender name="asyncAppender" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 引用控制台输出器 -->
         <appender-ref ref="consoleAppender"/>
-    </logger>
-
+    </appender>
 
     <!-- 配置记录器 -->
     <root level="DEBUG">
         <!-- 引用控制台输出器 -->
-        <appender-ref ref="consoleAppender"></appender-ref>
-        <appender-ref ref="fileAppender"></appender-ref>
-        <appender-ref ref="rollingFileAppender"></appender-ref>
+        <appender-ref ref="asyncAppender"></appender-ref>
     </root>
 
 </configuration>
