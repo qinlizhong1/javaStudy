@@ -48,6 +48,7 @@ class JulExample{
 
     //自定义日志级别：只需打印warning及以上级别日志
     public void test3() {
+        System.out.println("\n----------------------   test3 --------------------");
         Logger logger = Logger.getLogger("JulExample");
 
         // 参数设置为 false，打印日志的方式就不会按照父 logger 默认的方式去进行操作
@@ -70,6 +71,7 @@ class JulExample{
 
     //打印的消息需要进行字符串拼接
     public void test4() {
+        System.out.println("\n----------------------   test4 --------------------");
         Logger logger = Logger.getLogger("JulExample");
         String name = "郭靖";
         Integer age = 28;
@@ -84,6 +86,7 @@ class JulExample{
 
     //日志打印到文件
     public void test5() throws IOException {
+        System.out.println("\n----------------------   test5 --------------------");
         Logger logger = Logger.getLogger("JulExample");
 
         // 参数设置为 false，打印日志的方式就不会按照父 logger 默认的方式去进行操作
