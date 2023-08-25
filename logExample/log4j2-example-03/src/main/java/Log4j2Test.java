@@ -6,12 +6,18 @@ class Log4j2Example{
     public void test1(){
         System.out.println("----------------------   test1 --------------------");
         Logger logger = LoggerFactory.getLogger(Log4j2Example.class);
-        logger.trace("trace级别信息");
-        logger.debug("debug级别信息");
-        logger.info("info级别信息");
-        logger.warn("warn级别信息");
-        logger.error("error级别信息"); // 默认级别
 
+        for (int i = 0; i < 100; i++) {
+            logger.trace("trace级别信息");
+            logger.debug("debug级别信息");
+            logger.info("info级别信息");
+            logger.warn("warn级别信息");
+            logger.error("error级别信息"); // 默认级别
+        }
+
+        for (int i = 0; i < 100; i++) {
+            System.out.println("——————————————");
+        }
     }
 }
 
