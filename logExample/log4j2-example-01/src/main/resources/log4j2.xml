@@ -1,27 +1,3 @@
-##### Log4j 2 日志框架介绍
-Apache Log4j 2 是对 Log4j 的升级，它比其前身 Log4j 1.x 提供了显着改进，并提供了 Logback 中可用的许多改进，同时修复了 Logback 架构中的一些固有问题。
-SLF4j + Log4j 2 的组合是市场上最强大的日志功能实现方式，是未来的主流趋势。
-
-##### Log4j 2 使用
-1、引入依赖
-```xml
-<dependency>
-    <groupId>org.apache.logging.log4j</groupId>
-    <artifactId>log4j-api</artifactId>
-    <version>2.19.0</version>
-</dependency>
-
-<dependency>
-    <groupId>org.apache.logging.log4j</groupId>
-    <artifactId>log4j-core</artifactId>
-    <version>2.17.2</version>
-</dependency>
-```
-注意：log4j-core和log4j-api的版本最好保持一致，否则会报错。
-
-2、编写日志配置文件
-针对实际项目进行log4j2.xml编写，实际开发中，往往是基于从网上或者别的项目中copy一个模板过来，然后根据自己项目进行相应的修改。
-```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
 <!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出-->
@@ -120,17 +96,3 @@ SLF4j + Log4j 2 的组合是市场上最强大的日志功能实现方式，是�
         </root>
     </loggers>
 </configuration>
-```
-
-<Filters>
-    <ThresholdFilter level="error" onMatch="DENY" onMisMatch="NEUTRAL"/>
-    <ThresholdFilter level="warn" onMatch="ACCEPT" onMisMatch="DENY"/>
-</Filters>
-
-以上配置输出warn单一级别的日志：
-ThresholdFilter节点的 onMatch属性表示 ：如何处理level及其以上级别的信息 ，onMismatch则相应的，如何处理level以下的信息。属性值ACCEPT、DENY好理解，关键的就是NEUTRAL：中立，不处理但也不拦截，交给后续过滤器处理。而DENY是直接拦截，后续有处理器也没办法处理。
-因此要完成输出单一级别的任务：需要两个过滤器。还是以warn级别为例
-• 第一个过滤器，level为要输出级别的上一级别（要输出WARN，它的上一级别为ERROR），此处即level="ERROR"，然后onMatch="DENY" onMismatch="NEUTRAL" ，效果等价于：(DENY)拦截ERROR及其以上的信息，放行ERROR以下的信息
-• 第二个过滤器，level即为需要输出的级别，此处为level="WARN" ，然后onMatch="ACCEPT" onMismatch="DENY"，效果等价于：接收WARN及其以上级别的信息，拦截WARN以下级别的信息。
-
-但经第一个过滤器，此时WARN及其以上的级别的信息，只剩下WARN自己，因此只会输出WARN级别的日志。

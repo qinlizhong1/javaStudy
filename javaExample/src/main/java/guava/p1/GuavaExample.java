@@ -141,9 +141,9 @@ class GuavaTest{
 public class GuavaExample {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         GuavaTest guavaTest = new GuavaTest();
-        //guavaTest.test1();
+        guavaTest.test1();
         //guavaTest.test2();
         //guavaTest.test3();
-        guavaTest.test4();
+        //guavaTest.test4();
     }
 }
