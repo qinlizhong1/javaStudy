@@ -1,14 +1,13 @@
 package protobuf.p2;
 
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.TextFormat;
 import com.google.protobuf.util.JsonFormat;
 
 import java.util.Arrays;
 
-class ProtobufTest{
+class ProtobufTest2{
     //注释中的build()可加可不加
     private static Stu.Student.Builder stuBuilder = null;
     static {
@@ -26,13 +25,13 @@ class ProtobufTest{
                 //.build();
 
         BookOuterClass.Book.Builder bookBuilder1 = BookOuterClass.Book.newBuilder();
-        bookBuilder1.setName("Book-1")
-                .setPrice(11.11);
+        //bookBuilder1.setName("Book-1")
+         //       .setPrice(11.11);
                 //.build();
 
         BookOuterClass.Book.Builder bookBuilder2 = BookOuterClass.Book.newBuilder();
-        bookBuilder2.setName("Book-2")
-                .setPrice(22.22);
+        //bookBuilder2.setName("Book-2")
+        //        .setPrice(22.22);
                 //.build();
 
         stuBuilder.addListBook(bookBuilder1);
@@ -113,9 +112,9 @@ class ProtobufTest{
     }
 }
 
-public class ProtobufExample2 {
+public class ProtobufExample2EmptyMember {
     public static void main(String[] args) throws InvalidProtocolBufferException {
-        ProtobufTest protobufTest = new ProtobufTest();
+        ProtobufTest2 protobufTest = new ProtobufTest2();
         protobufTest.test1();
         //protobufTest.test2();
         //protobufTest.test3();
