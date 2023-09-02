@@ -9,6 +9,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 
 import java.io.IOException;
@@ -228,6 +229,220 @@ public class SearchUtils {
         }
     }
 
+
+    /* bool查询之must查询
+    GET /user/_search
+    {
+        "query":{
+            "bool":{
+              "must":[
+                {
+                  "match":{
+                    "desc":"中国"
+                  }
+                },
+                {
+                  "range": {
+                    "age": {
+                    "gte": 30
+                  }
+                }
+               }
+              ]
+            }
+        }
+    }
+    */
+    public static void getBoolMust(String indexName, String field, String kw,  String rangeField, Integer lower) throws IOException {
+        System.out.println("\n\n----------------------------  bool must  -----------------------");
+        //定义请求对象
+        SearchRequest searchRequest = new SearchRequest(indexName);
+
+        //指定检索条件
+        searchRequest.source(new SearchSourceBuilder()
+                .query(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery(field, kw))
+                                                .must(QueryBuilders.rangeQuery(rangeField).gte(lower))));
+
+        //发送请求到ES
+        SearchResponse search = client.search(searchRequest, RequestOptions.DEFAULT);
+
+        //处理响应结果
+        SearchHit[] hits = search.getHits().getHits();
+
+        for(SearchHit  hit : hits){
+            System.out.println("_index : "  + hit.getIndex());
+            System.out.println("_id : "  + hit.getId());
+            System.out.println("_score : "  + hit.getScore());
+            System.out.println("_source string : "  + hit.getSourceAsString());
+
+            System.out.println();
+        }
+    }
+
+
+    /* bool查询之must查询
+    GET /user/_search
+    {
+        "query":{
+            "bool":{
+              "should":[
+                {
+                  "match":{
+                    "desc":"中国"
+                  }
+                },
+                {
+                  "term": {
+                    "sex": {
+                      "value": "男"
+                    }
+                  }
+                },
+                {
+                  "range": {
+                    "age": {
+                    "gte": 30
+                  }
+                }
+               }
+              ],
+
+              "minimum_should_match": 2
+            }
+        }
+    }
+    */
+    public static void getBoolShould(String indexName, String field, String kw,  String rangeField, Integer lower) throws IOException {
+        System.out.println("\n\n----------------------------  bool should  -----------------------");
+        //定义请求对象
+        SearchRequest searchRequest = new SearchRequest(indexName);
+
+        //指定检索条件
+        searchRequest.source(new SearchSourceBuilder()
+                .query(QueryBuilders.boolQuery().should(QueryBuilders.matchQuery(field, kw))
+                        .should(QueryBuilders.rangeQuery(rangeField).gte(lower))
+                        .should(QueryBuilders.termQuery("sex", "男"))
+                        .minimumShouldMatch(2)));
+
+        //发送请求到ES
+        SearchResponse search = client.search(searchRequest, RequestOptions.DEFAULT);
+
+        //处理响应结果
+        SearchHit[] hits = search.getHits().getHits();
+
+        for(SearchHit  hit : hits){
+            System.out.println("_index : "  + hit.getIndex());
+            System.out.println("_id : "  + hit.getId());
+            System.out.println("_score : "  + hit.getScore());
+            System.out.println("_source string : "  + hit.getSourceAsString());
+
+            System.out.println();
+        }
+    }
+
+    /* exists查询:
+    GET /user/_search
+    {
+        "query":
+        {
+            "exists":{
+                "field":"desc"
+            }
+        }
+    }
+    */
+    public static void getExists(String indexName, String field) throws IOException {
+        System.out.println("\n\n----------------------------  exists  -----------------------");
+
+        //定义请求对象
+        SearchRequest searchRequest = new SearchRequest(indexName);
+
+        //指定检索条件
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(QueryBuilders.existsQuery(field));
+        searchRequest.source(searchSourceBuilder);
+
+        //发送请求到ES
+        SearchResponse search = client.search(searchRequest, RequestOptions.DEFAULT);
+
+        //处理响应结果
+        SearchHit[] hits = search.getHits().getHits();
+
+        for(SearchHit  hit : hits){
+            System.out.println("_index : "  + hit.getIndex());
+            System.out.println("_id : "  + hit.getId());
+            System.out.println("_score : "  + hit.getScore());
+            System.out.println("_source string : "  + hit.getSourceAsString());
+
+            System.out.println();
+        }
+
+    }
+
+
+    /* highlight:高亮查询
+    GET /user/_search
+    {
+        "query":{
+            "match":{
+                "desc":"中国"
+            }
+        },
+        "highlight": {
+          "fields": {
+            "desc": {}
+          }
+        }
+    }
+
+    也对多个字段进行高亮，如下面对name和desc两个字段进行高亮显示：
+    GET /user/_search
+    {
+        "query":{
+            "multi_match":{
+                "query":"美国",
+                "fields": ["name", "desc"]
+            }
+        },
+        "highlight": {
+          "fields": [
+                {"desc": {}},
+                {"name": {}}
+            ]
+        }
+    }
+    */
+    public static void getHighlight(String indexName, String field, String kw) throws IOException {
+        System.out.println("\n\n----------------------------  Highlight  -----------------------");
+        //定义请求对象
+        SearchRequest searchRequest = new SearchRequest(indexName);
+
+        //自定义高亮 查找
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
+        highlightBuilder.preTags("<font color='red'>");
+        highlightBuilder.postTags("</font>");
+        highlightBuilder.field(field);//对哪个字段高亮
+
+        //指定检索条件
+        searchRequest.source(new SearchSourceBuilder()
+                .query(QueryBuilders.matchQuery(field, kw)).highlighter(highlightBuilder));
+
+        //发送请求到ES
+        SearchResponse search = client.search(searchRequest, RequestOptions.DEFAULT);
+
+        //处理响应结果
+        SearchHit[] hits = search.getHits().getHits();
+
+        for(SearchHit  hit : hits){
+            System.out.println("_index : "  + hit.getIndex());
+            System.out.println("_id : "  + hit.getId());
+            System.out.println("_score : "  + hit.getScore());
+            System.out.println("_source string : "  + hit.getSourceAsString());
+            System.out.println("高亮信息 : " + hit.getHighlightFields());
+
+            System.out.println();
+        }
+    }
 
     public static void close() throws IOException {
         if (null != client){

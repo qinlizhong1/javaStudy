@@ -24,15 +24,17 @@ class RestHighLevelClientExample{
         PutUtils.putAddData("user", "2", new User("李二", "男", 20,"中国湖南省长沙市"));
 
         //批量添加数据
-        User user1 = new User("王三(美国华尔街)", "男", 30, "中国湖南省邵阳市");
+        User user1 = new User("王三(美国华尔街)", "男", 30, "中国湖南省邵阳市"); //为multi_match查询构造的数据
         User user2 = new User("谢四", "女", 40, "美国旧金山");
         User user3 = new User("麻五", "女", 50, "美国东北大学");
         User user4 = new User("曾六", "男", 60, "中国东北大学");
+        User user5 = new User("习七", "男", 70, null);//为exits查询构造的数据
         List<User> userList = new ArrayList<>();
         userList.add(user1);
         userList.add(user2);
         userList.add(user3);
         userList.add(user4);
+        userList.add(user5);
 
         PutUtils.bulkAddData("user", "3", userList);
         PutUtils.updateData("user", "4");
@@ -49,6 +51,10 @@ class RestHighLevelClientExample{
         SearchUtils.getMatch("user", "desc", "中国");
         SearchUtils.getMultiMatch("user", new String[]{"name", "desc"}, "美国");
         SearchUtils.getRange("user", "age", 40 ,50);
+        SearchUtils.getHighlight("user", "desc", "中国");
+        SearchUtils.getBoolMust("user", "desc", "中国", "age", 30);
+        SearchUtils.getBoolShould("user", "desc", "中国", "age", 30);
+        SearchUtils.getExists("user", "desc");
 
     }
 }
